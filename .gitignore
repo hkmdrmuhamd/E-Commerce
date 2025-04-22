@@ -1,18 +1,22 @@
+####################################
+# .NET / ASP.NET Core Ignore'larý
+####################################
+
 **/wwwroot/lib/*
 **/obj/*
 **/bin/*
 
-# Visual Studio'dan gelen dosyalar
+# Visual Studio
 .vs/
 .vscode/
 
-# Kullanýcý spesifik ayar dosyalarý
+# Kullanýcý spesifik ayarlar
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-# Derleme dosyalarý
+# Derleme çýktýlarý
 *.dll
 *.pdb
 *.exe
@@ -22,13 +26,45 @@
 *.nupkg
 *.snk
 
-# Proje dizininde yer alan geçici dosyalar
+# Geçici dosyalar
 .DS_Store
 Thumbs.db
 
 # Yapý ayarlarý
 #launchSettings.json
 
-# Diðer geçici veya gereksiz dosyalar
+# Diðer
 DocumentLayout.json
-ScaffoldingReadMe.txt
+
+####################################
+# React (Vite + TypeScript) Ignore'larý
+####################################
+
+# node_modules
+**/node_modules/
+
+# Build çýktýsý
+**/dist/
+
+# .env dosyalarý
+.env
+.env.*.local
+
+# NPM/Yarn log dosyalarý
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Yarn ve pnpm store
+.pnpm-store/
+.yarn/
+.yarnrc.yml
+
+# TypeScript derleme cache
+*.tsbuildinfo
+
+# IDE klasörleri
+.idea/
+
+# Diðer potansiyel geçici sistem dosyalarý
+ehthumbs.db
