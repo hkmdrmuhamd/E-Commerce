@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IProduct } from "./model/IProduct";
 
 function App() {
   return (
@@ -17,11 +18,7 @@ function Header() {
 
 function ProductList() {
 
-  const [products, setProducts] = useState([
-    {id: 1, name: "product 1", price: 1000, isActive: true},
-    {id: 2, name: "product 2", price: 2000, isActive: false},
-    {id: 3, name: "product 3", price: 3000, isActive: true},
-  ]);
+  const [products, setProducts] = useState<IProduct[]>([]); //Ürün listesini tutmak için IProduct tipinde bir dizi olarak state tanımlıyoruz
 
   useEffect(() => {
     fetch("https://localhost:7190/api/products")
@@ -30,7 +27,15 @@ function ProductList() {
   }, []);
 
   function addProduct(){
-    setProducts([...products, { id: 4, name: "product 4", price: 4000, isActive: true }]); //...products listenin var olan değerleridir. Burada yapılan işlem var olan elemanların üstüne yeni bir değer eklememizi sağlar
+    setProducts([...products, { 
+      id: 4, 
+      name: "product 4", 
+      description: "This is product 4",
+      price: 4000, 
+      isActive: true,
+      imageUrl: "4.jpg",
+      stock: 100
+    }]); //...products listenin var olan değerleridir. Burada yapılan işlem var olan elemanların üstüne yeni bir değer eklememizi sağlar
   }
 
   return (
