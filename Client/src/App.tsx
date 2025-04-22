@@ -1,7 +1,7 @@
 const  products = [
-  {name: "product 1", price: 1000},
-  {name: "product 2", price: 2000},
-  {name: "product 3", price: 3000},
+  {id: 1, name: "product 1", price: 1000, is_Active: true},
+  {id: 2, name: "product 2", price: 2000, is_Active: false},
+  {id: 3, name: "product 3", price: 3000, is_Active: true},
 ];
 
 function App() {
@@ -21,19 +21,24 @@ function Header() {
 
 function ProductList() {
   return (
-    <>
+    <div>
       <h2>Selam sana demir pençe</h2>
-      <Product product={products[0]}/>
-      <Product product={products[1]}/>
-      <Product product={products[2]}/>
-    </>
+      { products.map(p => (
+        <Product key={p.id} product={p} />
+      ))}
+    </div>
   );
 }
 
 function Product(props: any) { //props: any dediğimiz yapı props adında bir değişken oluştur ve bunun tipi any olsun yani tipsiz olsun demektir. 
   return (
     <>
-      <h3>{ props.product.name }</h3> <p>{ props.product.price }</p>
+      { props.product.is_Active ? ( //is_Active değeri true olanlar getirilsin 
+        <div>
+          <h3>{ props.product.name }</h3>
+          <p>{ props.product.price }</p>
+        </div>
+      ) : <p>Bu ürün şu anda satışta değil</p>} 
     </>
   );
 }
