@@ -2,21 +2,6 @@ import { useEffect, useState } from "react";
 import { IProduct } from "./model/IProduct";
 
 function App() {
-  return (
-    <> {/*Kapsayıcı element kullanmamızın sebebi bir Parent COmponent içerisinde birden fazla Child componenet kullanırsak bunları bir kapsayıcı elementin içine almamız gereklidir.*/}
-      <Header /> {/*Header componenti bir child component oldu*/}
-      <ProductList />
-    </>
-  );
-}
-
-function Header() {
-  return (
-    <h1>Selam sana demir pençe</h1>
-  )
-}
-
-function ProductList() {
 
   const [products, setProducts] = useState<IProduct[]>([]); //Ürün listesini tutmak için IProduct tipinde bir dizi olarak state tanımlıyoruz
 
@@ -39,14 +24,30 @@ function ProductList() {
   }
 
   return (
+    <> {/*Kapsayıcı element kullanmamızın sebebi bir Parent COmponent içerisinde birden fazla Child componenet kullanırsak bunları bir kapsayıcı elementin içine almamız gereklidir.*/}
+      <Header /> {/*Header componenti bir child component oldu*/}
+      <ProductList products = {products} addProduct = {addProduct}/>
+    </>
+  );
+}
+
+function Header() {
+  return (
+    <h1>Selam sana demir pençe</h1>
+  )
+}
+
+function ProductList(props: any) {
+
+  return (
     <div>
       <h2>Selam sana demir pençe</h2>
       
-      { products.map(p => (
+      { props.products.map((p: IProduct) => (
         <Product key={p.id} product={p} />
       ))}
 
-      <button onClick={ addProduct }>Add Product</button> {/*onclick ile butona tıklanıldığı anda addProduct metodu çağırılır.*/}
+      <button onClick={ props.addProduct }>Add Product</button> {/*onclick ile butona tıklanıldığı anda addProduct metodu çağırılır.*/}
 
     </div>
   );
