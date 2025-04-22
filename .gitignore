@@ -2,7 +2,7 @@
 # .NET / ASP.NET Core Ignore'larý
 ####################################
 
-**/wwwroot/lib/*
+**/wwwroot/images/*
 **/obj/*
 **/bin/*
 

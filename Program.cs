@@ -19,6 +19,8 @@ app.UseCustomSwagger();
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles(); //wwwroot klasörü altýndaki statik dosyalarýn dýþarý açýlmasýný saðlar
+
 app.UseCors(opt =>
 {
     opt.AllowAnyHeader()

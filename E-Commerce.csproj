@@ -21,4 +21,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\1.jpg" />
+    <None Include="wwwroot\images\2.jpg" />
+    <None Include="wwwroot\images\3.jpg" />
+    <None Include="wwwroot\images\4.jpg" />
+    <None Include="wwwroot\images\5.jpg" />
+    <None Include="wwwroot\images\6.jpg" />
+    <None Include="wwwroot\images\7.jpg" />
+  </ItemGroup>
+
 </Project>
