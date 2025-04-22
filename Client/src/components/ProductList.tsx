@@ -12,7 +12,7 @@ export default function ProductList({products}: Props) {
     <Grid container spacing={2}>
       
       { products.map((p: IProduct) => (
-        <Grid key={p.id} size={{ xs: 6, md:4, lg:3 }}>{/*Küçük cihazlarda yan yana 6x2=12'den 2 ürün, orta cihazlarda yan yana 3 ürün, büyük cihazlarda yan yana 4 ürün gösterilsin*/}
+        <Grid key={p.id} size={{ xs: 12, md:4, lg:3 }}>{/*Küçük cihazlarda yan yana 6x2=12'den 2 ürün, orta cihazlarda yan yana 3 ürün, büyük cihazlarda yan yana 4 ürün gösterilsin*/}
             <Product key={p.id} product={p} />
         </Grid>
       ))}
