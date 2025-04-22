@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IProduct } from "../model/IProduct";
 import Header from "./Header";
 import ProductList from "./ProductList";
+import ButtonUsage from "./ButtonUsage";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
     <> {/*Kapsayıcı element kullanmamızın sebebi bir Parent COmponent içerisinde birden fazla Child componenet kullanırsak bunları bir kapsayıcı elementin içine almamız gereklidir.*/}
       <Header products = {products}/> {/*Header componenti bir child component oldu*/}
       <ProductList products = {products} addProduct = {addProduct}/>
+      <ButtonUsage />
     </>
   );
 }
