@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IProduct } from "../model/IProduct";
 import Header from "./Header";
 import ProductList from "./ProductList";
-import ButtonUsage from "./ButtonUsage";
+import { Container, CssBaseline } from "@mui/material";
 
 function App() {
 
@@ -28,9 +28,12 @@ function App() {
 
   return (
     <> {/*Kapsayıcı element kullanmamızın sebebi bir Parent COmponent içerisinde birden fazla Child componenet kullanırsak bunları bir kapsayıcı elementin içine almamız gereklidir.*/}
-      <Header products = {products}/> {/*Header componenti bir child component oldu*/}
-      <ProductList products = {products} addProduct = {addProduct}/>
-      <ButtonUsage />
+      <CssBaseline /> {/*İçeriği sağdan soldan sıfırlar sayfanın tam kenarlarına oturtur*/}
+      <Header /> {/*Header componenti bir child component oldu*/}
+      
+      <Container>{/*İeriği bir container içine alır ve sağdan soldan ortalar*/}
+        <ProductList products = {products} addProduct = {addProduct}/>
+      </Container>
     </>
   );
 }
