@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { IProduct } from "./model/IProduct";
+import { IProduct } from "../model/IProduct";
+import Header from "./Header";
+import ProductList from "./ProductList";
 
 function App() {
 
@@ -25,43 +27,8 @@ function App() {
 
   return (
     <> {/*Kapsayıcı element kullanmamızın sebebi bir Parent COmponent içerisinde birden fazla Child componenet kullanırsak bunları bir kapsayıcı elementin içine almamız gereklidir.*/}
-      <Header /> {/*Header componenti bir child component oldu*/}
+      <Header products = {products}/> {/*Header componenti bir child component oldu*/}
       <ProductList products = {products} addProduct = {addProduct}/>
-    </>
-  );
-}
-
-function Header() {
-  return (
-    <h1>Selam sana demir pençe</h1>
-  )
-}
-
-function ProductList(props: any) {
-
-  return (
-    <div>
-      <h2>Selam sana demir pençe</h2>
-      
-      { props.products.map((p: IProduct) => (
-        <Product key={p.id} product={p} />
-      ))}
-
-      <button onClick={ props.addProduct }>Add Product</button> {/*onclick ile butona tıklanıldığı anda addProduct metodu çağırılır.*/}
-
-    </div>
-  );
-}
-
-function Product(props: any) { //props: any dediğimiz yapı props adında bir değişken oluştur ve bunun tipi any olsun yani tipsiz olsun demektir. 
-  return (
-    <>
-      { props.product.isActive ? ( //is_Active değeri true olanlar getirilsin 
-        <div>
-          <h3>{ props.product.name }</h3>
-          <p>{ props.product.price }</p>
-        </div>
-      ) : <p>Bu ürün şu anda satışta değil</p>} 
     </>
   );
 }
