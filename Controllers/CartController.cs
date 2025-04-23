@@ -41,6 +41,24 @@ namespace E_Commerce.Controllers
             return BadRequest(new ProblemDetails { Title = "The product can not be added to cart" });
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> DeleteItemFromCart(int productId, int quantity)
+        {
+            var cart = await GetOrCreate();
+            var product = await _context.Products.FindAsync(productId);
+            
+            if (product == null) return NotFound("the product is not in database");
+            
+            cart.DeleteItem(productId, quantity);
+            
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                return Ok();
+            }
+            return BadRequest(new ProblemDetails { Title = "The product can not be deleted from cart" });
+        }
+
         private async Task<Cart> GetOrCreate()
         {
             var cart = await _context.Carts
