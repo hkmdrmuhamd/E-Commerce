@@ -29,6 +29,7 @@ export default function Header() {
           <Stack direction="row">
             {links.map((link) => (
               <Button
+                key={link.to}
                 component={NavLink}
                 to={link.to}
                 sx={navStyles}
