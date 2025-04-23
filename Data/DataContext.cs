@@ -6,6 +6,7 @@ namespace E_Commerce.Data
     public class DataContext(DbContextOptions options) : DbContext(options) //DbContext, Design paketi ile gelen kütüphane
     {
         public DbSet<Product> Products { get; set; } = null!; //null değer geçilmeyeceğini belirtir.
+        public DbSet<Cart> Carts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
