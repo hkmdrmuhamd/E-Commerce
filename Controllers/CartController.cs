@@ -74,7 +74,9 @@ namespace E_Commerce.Controllers
                 var cookieOptions = new CookieOptions
                 {
                     Expires = DateTimeOffset.UtcNow.AddDays(30),
-                    IsEssential = true
+                    IsEssential = true,
+                    SameSite = SameSiteMode.None,
+                    Secure = true
                 };
 
                 Response.Cookies.Append("customerId", customerId, cookieOptions); //cookie oluşturuyoruz.

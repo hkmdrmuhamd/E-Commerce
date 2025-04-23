@@ -28,6 +28,7 @@ app.UseCors(opt =>
 {
     opt.AllowAnyHeader()
        .AllowAnyMethod()
+       .AllowCredentials()//Server tarafýndan gelen cookie'leri alabilmeye izin verir
        .WithOrigins("http://localhost:3000");
 });
 
