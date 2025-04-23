@@ -68,3 +68,5 @@ yarn-error.log*
 
 # Diðer potansiyel geçici sistem dosyalarý
 ehthumbs.db
+ecommerce.db-wal
+ecommerce.db-shm
