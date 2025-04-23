@@ -31,8 +31,4 @@
     <None Include="wwwroot\images\7.jpg" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
 </Project>

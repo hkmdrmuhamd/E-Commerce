@@ -2,18 +2,18 @@ import { CircularProgress, Divider, Grid, Table, TableBody, TableCell, TableCont
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IProduct } from "../../model/IProduct";
+import request from "../../api/request";
 
 export default function ProductDetailsPage() {
 
-  const { id } = useParams(); //useParams = route üzerinden gelen bilgilerin alınmasını sağlar. 
+  const { id } = useParams<{id: string}>(); //useParams = route üzerinden gelen bilgilerin alınmasını sağlar. 
   // Burada dikkat edilmesi gereken şey şudur: id olarak belirlediğimiz değişkenin Routes ayarlarken / dan sonra yazdığımız parametre ile aynı olmalıdır
   
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect( () => {
-    fetch(`https://localhost:7190/api/products/${id}`)
-      .then(response => response.json())
+    id && request.Catalog.details(parseInt(id)) //id && = id varsa anlamına gelmektedir bu kontrolü yapmazak tanımlanmamış değer hatası verir
       .then(data => setProduct(data))
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
