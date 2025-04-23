@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Data;
+using E_Commerce.DTO;
 using E_Commerce.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,10 @@ namespace E_Commerce.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Cart>> GetCart() //ActionResult olmasının sebebi geriye bir tip dönüşü yapacağımız içindir.
+        public async Task<ActionResult<CartDto>> GetCart() //ActionResult olmasının sebebi geriye bir tip dönüşü yapacağımız içindir.
         {
             var cart = await GetOrCreate();
-            return cart;
+            return CartToDto(cart);
         }
 
         [HttpPost]
@@ -35,7 +36,7 @@ namespace E_Commerce.Controllers
             var result = await _context.SaveChangesAsync(); //Veritabanına kaydediyoruz.
             if (result > 0)
             {
-                return CreatedAtAction(nameof(GetCart), cart);//nameof GetCart method adını yazarken oluşabilecek hataların önüne geçmek için kullanılır
+                return CreatedAtAction(nameof(GetCart), CartToDto(cart));//nameof GetCart method adını yazarken oluşabilecek hataların önüne geçmek için kullanılır
             }
 
             return BadRequest(new ProblemDetails { Title = "The product can not be added to cart" });
@@ -87,6 +88,23 @@ namespace E_Commerce.Controllers
                 await _context.SaveChangesAsync();
             }
             return cart;
+        }
+
+        private CartDto CartToDto(Cart cart)
+        {
+            return new CartDto
+            {
+                CartId = cart.CartId,
+                CustomerId = cart.CustomerId,
+                CartItems = cart.CartItems.Select(i => new CartItemDto
+                {
+                    ProductId = i.ProductId,
+                    ProductName = i.Product.Name,
+                    Price = i.Product.Price,
+                    Quantity = i.Quantity,
+                    ImageUrl = i.Product.ImageUrl,
+                }).ToList()
+            };
         }
     }
 }
