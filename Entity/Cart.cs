@@ -5,6 +5,38 @@
         public int CartId { get; set; }
         public string CustomerId { get; set; } = null!;
         public List<CartItem> CartItems { get; set; } = new List<CartItem>(); //sadece new() yazsak da olur bu kısaltılmış halidir.
+
+        public void AddItem(Product product, int quantity)
+        {
+            var item = CartItems.Where(c => c.ProductId == product.Id).FirstOrDefault();
+
+            if (item == null)
+            {
+                CartItems.Add(new CartItem
+                {
+                    ProductId = product.Id,
+                    Quantity = quantity
+                });
+            }
+            else
+            {
+                item.Quantity += quantity;
+            }
+        }
+
+        public void DeleteItem(int productId, int quantity)
+        {
+            var item = CartItems.Where(c => c.ProductId == productId).FirstOrDefault();
+            if (item == null) return;
+            if (item != null)
+            {
+                item.Quantity -= quantity;
+                if (item.Quantity == 0)
+                {
+                    CartItems.Remove(item);
+                }
+            }
+        }
     }
 
     public class CartItem
@@ -15,8 +47,5 @@
         public int CartId { get; set; }
         public Cart Cart { get; set; } = null!;
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
-        public string ProductName { get; set; }
-        public string ImageUrl { get; set; }
     }
 }
