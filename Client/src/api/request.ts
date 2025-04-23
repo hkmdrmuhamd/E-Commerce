@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 
 axios.defaults.baseURL = "https://localhost:7190/api/"
+axios.defaults.withCredentials = true; //gelen cookie'leri yakalamaya izin verir
 
 axios.interceptors.response.use( //interceptor = Global hata yönetimi sağlar. Her API çağrısında try/catch yapmana gerek kalmaz.
     // Başarılı cevap geldiğinde doğrudan cevabı döndür.

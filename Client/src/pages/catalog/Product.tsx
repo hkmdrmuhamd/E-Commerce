@@ -5,12 +5,13 @@ import { AddShoppingCart } from "@mui/icons-material";
 import { Link } from "react-router";
 import { useState } from "react";
 import requests from "../../api/request";
+import { LoadingButton } from "@mui/lab"
 
 interface Props { //props parametresini daha güvenilir bir şekilde, kontrol altına alınabilir bir şekilde yapmak için kullanılır
     product: IProduct;
 }
 
-export default function Product({product}: Props) { //props: any dediğimiz yapı props adında bir değişken oluştur ve bunun tipi any olsun yani tipsiz olsun demektir. 
+export default function Product({product}: Props) {
   
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +21,6 @@ export default function Product({product}: Props) { //props: any dediğimiz yap�
       .then(cart => console.log(cart))
       .catch(error => console.log(error))
       .finally(() => setLoading(false))
-
   }
   
   return (
@@ -36,9 +36,18 @@ export default function Product({product}: Props) { //props: any dediğimiz yap�
           <Typography variant="body2" color="secondary">Fiyat: ${(product.price / 100).toFixed(2)}₺</Typography>
           
           <CardActions sx={{ px: 0, pb: 0, pt: 1 }}>
-            <Button variant="outlined" size="small" startIcon={<AddShoppingCart />} 
-            sx={{ minWidth: 130 }} color="success" 
-            onClick={() => handleAddItem(product.id)}>Sepete ekle</Button>
+            <LoadingButton 
+              variant="outlined" size="small"
+              sx={{ minWidth: 130 }}
+              loading={loading}
+              loadingPosition="start"
+              color="success" 
+              startIcon={<AddShoppingCart />}  
+              onClick={() => handleAddItem(product.id)}
+              >
+                Sepete ekle
+            </LoadingButton>
+
             <Button component={Link} to={`/catalog/${product.id}`} variant="outlined" size="small" startIcon={<SearchIcon />} sx={{ minWidth: 110 }} color="primary">Görüntüle</Button>
           </CardActions>
         
