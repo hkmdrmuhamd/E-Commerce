@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { IProduct } from "../model/IProduct";
 import Header from "./Header";
-import ProductList from "./ProductList";
 import { Container, CssBaseline } from "@mui/material";
+import { Outlet } from "react-router";
 
 function App() {
 
@@ -20,7 +20,7 @@ function App() {
       <Header /> {/*Header componenti bir child component oldu*/}
       
       <Container>{/*İeriği bir container içine alır ve sağdan soldan ortalar*/}
-        <ProductList products = {products} />
+        <Outlet /> {/*Artık bu kısma dinamik olarak farklı component'ler farklı sayfalar gelebilir anlamı taşır.*/}
       </Container>
     </>
   );
