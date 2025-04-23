@@ -16,6 +16,15 @@ axios.interceptors.response.use( //interceptor = Global hata yönetimi sağlar. 
         switch(status)
         {
             case 400:
+                if(data.errors){
+                    const modelErrors : string[] = [];
+
+                    for (const key in data.errors) {
+                        modelErrors.push(data.errors[key])
+                    }
+
+                    throw modelErrors;
+                }
                 toast.error(data.title);
                 break;
 
