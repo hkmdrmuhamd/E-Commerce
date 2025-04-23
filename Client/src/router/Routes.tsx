@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import App from "../components/App";
 import HomePage from "../pages/HomePage";
 import AboutPage from "../pages/AboutPage";
@@ -7,6 +7,7 @@ import CatalogPage from "../pages/catalog/CatalogPage";
 import ProductDetailsPage from "../pages/catalog/ProductDetails";
 import ErrorPage from "../pages/catalog/ErrorPage";
 import ServerError from "../errors/ServerError";
+import NotFound from "../errors/NotFound";
 
 export const router = createBrowserRouter([ //Gerekli routing yönlendirmeleri burada yapılır. Bu ayarlandıktan sonra main.tsx dosyasında StrictMode içinde App'i çağırmak yerine bu router'ı çağırması belirtilir.
     {
@@ -17,9 +18,11 @@ export const router = createBrowserRouter([ //Gerekli routing yönlendirmeleri b
             { path: "about", element: <AboutPage /> },
             { path: "contact", element: <ContactPage /> },
             { path: "catalog", element: <CatalogPage /> },
+            { path: "catalog/:id", element: <ProductDetailsPage /> },
             { path: "error", element: <ErrorPage /> },
             { path: "server-error", element: <ServerError /> },
-            { path: "catalog/:id", element: <ProductDetailsPage /> },
+            { path: "not-found", element: <NotFound /> },
+            { path: "*", element: <Navigate to="/not-found" /> } //Üstteki pathlerden herhangi birisi karşılanmıyorsa not found sayfasına Navigate eder yani o sayfayı açar
         ]
     }
     /* Aşağıdaki şekilde yeni routing'ler de eklenebilir

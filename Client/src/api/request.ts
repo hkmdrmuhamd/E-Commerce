@@ -24,7 +24,7 @@ axios.interceptors.response.use( //interceptor = Global hata yönetimi sağlar. 
                 break;
             
             case 404:
-                toast.error(data.title);
+                router.navigate("/not-found")
                 break;
             
             case 422:
