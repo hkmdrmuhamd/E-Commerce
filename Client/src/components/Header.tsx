@@ -7,6 +7,7 @@ const links = [
   { title: "Catalog", to: "/catalog" },
   { title: "About", to: "/about" },
   { title: "Contact", to: "/contact" }, // contct yazmışsın lan, düzelttim
+  { title: "Error", to: "/error" },
 ];
 
 const navStyles = {

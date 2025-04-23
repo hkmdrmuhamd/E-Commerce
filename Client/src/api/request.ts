@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
+import { router } from "../router/Routes";
 
 axios.defaults.baseURL = "https://localhost:7190/api/"
 
@@ -31,7 +32,8 @@ axios.interceptors.response.use( //interceptor = Global hata yönetimi sağlar. 
                 break;
 
             case 500:
-                toast.error(data.title);
+                router.navigate("/server-error", { state: { error: data, status: status } }); //navigate, kullanıcıyı belirtilen server error sayfasına yönlendirir. Yönlendirme sırasında state bilgisi de iletilir. Hedef sayfada useLocation hook'u kullanılarak bu state bilgisi alınabilir ve sayfada kullanılabilir.
+                //state objesi ile hatanın içindeki error ve status bilgilerini yakalayıp farklı yerlerde kullanabiliriz.
                 break;
             
             default:
