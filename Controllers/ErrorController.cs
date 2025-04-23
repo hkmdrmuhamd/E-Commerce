@@ -29,7 +29,7 @@ namespace E_Commerce.Controllers
         {
             ModelState.AddModelError("error 1", "this is a validation error");
             ModelState.AddModelError("error 2", "this is a validation error");
-            return ValidationProblem(); //422
+            return ValidationProblem();
         }
 
         [HttpGet("server-error")]
