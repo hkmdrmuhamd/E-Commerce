@@ -3,6 +3,8 @@ import App from "../components/App";
 import HomePage from "../pages/HomePage";
 import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
+import CatalogPage from "../pages/catalog/CatalogPage";
+import ProductDetailsPage from "../pages/catalog/ProductDetails";
 
 export const router = createBrowserRouter([ //Gerekli routing yönlendirmeleri burada yapılır. Bu ayarlandıktan sonra main.tsx dosyasında StrictMode içinde App'i çağırmak yerine bu router'ı çağırması belirtilir.
     {
@@ -12,6 +14,8 @@ export const router = createBrowserRouter([ //Gerekli routing yönlendirmeleri b
             { path: "", element: <HomePage /> },
             { path: "about", element: <AboutPage /> },
             { path: "contact", element: <ContactPage /> },
+            { path: "catalog", element: <CatalogPage /> },
+            { path: "catalog/:id", element: <ProductDetailsPage /> },
         ]
     }
     /* Aşağıdaki şekilde yeni routing'ler de eklenebilir
