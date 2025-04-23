@@ -1,4 +1,5 @@
 using E_Commerce.Extensions.ServiceRegistrations;
+using E_Commerce.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>(); // Middleware'i kullanabilmek için
 
 // Configure the HTTP request pipeline.
 app.UseCustomSwagger();
