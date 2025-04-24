@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { useState } from "react";
 import requests from "../../api/request";
 import { LoadingButton } from "@mui/lab"
+import { useCartContext } from "../../context/CartContext";
 
 interface Props { //props parametresini daha güvenilir bir şekilde, kontrol altına alınabilir bir şekilde yapmak için kullanılır
     product: IProduct;
@@ -14,11 +15,12 @@ interface Props { //props parametresini daha güvenilir bir şekilde, kontrol al
 export default function Product({product}: Props) {
   
   const [loading, setLoading] = useState(false);
+  const { setCart } = useCartContext(); //ContextProvider'da belirlediğimiz setCart'ı çağırıp kullanabiliriz
 
   function handleAddItem(productId: number) {
     setLoading(true);
     requests.Cart.addItem(productId)
-      .then(cart => console.log(cart))
+      .then(cart => setCart(cart)) //cart bilgilerini aldıktan sonra bu bilgileri ContextProvider'daki setCart üzerine set ediyoruz
       .catch(error => console.log(error))
       .finally(() => setLoading(false))
   }
