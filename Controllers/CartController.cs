@@ -36,7 +36,7 @@ namespace E_Commerce.Controllers
             var result = await _context.SaveChangesAsync(); //Veritabanına kaydediyoruz.
             if (result > 0)
             {
-                return CreatedAtAction(nameof(GetCart), CartToDto(cart));//nameof GetCart method adını yazarken oluşabilecek hataların önüne geçmek için kullanılır
+                return CreatedAtAction(nameof(GetCart), CartToDto(cart));// CreatedAtAction ile GetCart methodunu çağırabiliyoruz nameof GetCart method adını yazarken oluşabilecek hataların önüne geçmek için kullanılır
             }
 
             return BadRequest(new ProblemDetails { Title = "The product can not be added to cart" });
@@ -55,7 +55,7 @@ namespace E_Commerce.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok();
+                return CreatedAtAction(nameof(GetCart), CartToDto(cart));
             }
             return BadRequest(new ProblemDetails { Title = "The product can not be deleted from cart" });
         }
