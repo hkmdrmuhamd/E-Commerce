@@ -1,6 +1,6 @@
 import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography, Box, IconButton, Badge, Stack, Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const links = [
   { title: "Home", to: "/" },
@@ -42,7 +42,7 @@ export default function Header() {
         </Box>
 
         <Box>
-          <IconButton size="large" edge="start" color="inherit">
+          <IconButton component={Link} to="/cart" size="large" edge="start" color="inherit">
             <Badge badgeContent="2" color="secondary">
               <ShoppingCart />
             </Badge>
