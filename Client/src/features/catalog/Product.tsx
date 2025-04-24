@@ -3,13 +3,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IProduct } from "../../model/IProduct";
 import { AddShoppingCart } from "@mui/icons-material";
 import { Link } from "react-router";
-import { useState } from "react";
-import requests from "../../api/request";
 import { LoadingButton } from "@mui/lab"
-import { toast } from "react-toastify";
 import { currencyTRY } from "../../utils/formatCurrency";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { setCart } from "../cart/cartSlice";
+import { addItemToCart } from "../cart/cartSlice";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface Props { //props parametresini daha güvenilir bir şekilde, kontrol altına alınabilir bir şekilde yapmak için kullanılır
     product: IProduct;
@@ -17,20 +15,9 @@ interface Props { //props parametresini daha güvenilir bir şekilde, kontrol al
 
 export default function Product({product}: Props) {
   
-  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector(state => state.cart);
 
-  function handleAddItem(productId: number) {
-    setLoading(true);
-    requests.Cart.addItem(productId)
-      .then(cart => { //cart bilgilerini aldıktan sonra bu bilgileri ContextProvider'daki setCart üzerine set ediyoruz
-        dispatch(setCart(cart));
-        toast.success("Sepetinize eklendi.");
-      }) 
-      .catch(error => console.log(error))
-      .finally(() => setLoading(false))
-  }
-  
   return (
     <Card>
         <CardMedia sx={{ height: 160, backgroundSize: "contain" }} image={`https://localhost:7190/images/${product.imageUrl}`}/> {/*sx={{ height: 160, backgroundSize: "contain" }} burada resme bir uzunluk verdik bir de oluşturduğumuz kart içerisinde responsive olarak resmin kendini ayarlamasını sağladık*/}
@@ -47,11 +34,11 @@ export default function Product({product}: Props) {
             <LoadingButton 
               variant="outlined" size="small"
               sx={{ minWidth: 130 }}
-              loading={loading}
+              loading={status === "pendingAddItem" + product.id}
               loadingPosition="start"
               color="success" 
               startIcon={<AddShoppingCart />}  
-              onClick={() => handleAddItem(product.id)}
+              onClick={() => dispatch(addItemToCart({productId: product.id}))}
               >
                 Sepete ekle
             </LoadingButton>

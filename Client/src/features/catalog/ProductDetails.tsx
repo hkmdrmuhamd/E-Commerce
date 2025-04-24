@@ -6,15 +6,14 @@ import request from "../../api/request";
 import NotFound from "../../errors/NotFound";
 import { LoadingButton } from "@mui/lab";
 import { AddShoppingCart } from "@mui/icons-material";
-import { toast } from "react-toastify";
 import { currencyTRY } from "../../utils/formatCurrency";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { setCart } from "../cart/cartSlice";
+import { addItemToCart } from "../cart/cartSlice";
 
 export default function ProductDetailsPage() {
 
-  const { cart } = useAppSelector(state => state.cart);
+  const { cart, status } = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
 
   const { id } = useParams<{id: string}>(); //useParams = route üzerinden gelen bilgilerin alınmasını sağlar. 
@@ -22,20 +21,8 @@ export default function ProductDetailsPage() {
   
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAdded, setIsAdded] = useState(false);
 
   const item = cart?.cartItems.find(i => i.productId == product?.id)
-
-  function handleAddItem(id: number){
-    setIsAdded(true);
-    request.Cart.addItem(id)
-      .then(cart => {
-        dispatch(setCart(cart));
-        toast.success("Sepetinize eklendi.");
-      })
-      .catch(error => console.log(error))
-      .finally(() => setIsAdded(false));
-  }
 
   useEffect( () => {
     id && request.Catalog.details(parseInt(id)) //id && = id varsa anlamına gelmektedir bu kontrolü yapmazak tanımlanmamış değer hatası verir
@@ -81,8 +68,8 @@ export default function ProductDetailsPage() {
             variant="outlined"
             loadingPosition="start"
             startIcon={<AddShoppingCart />}
-            loading={isAdded}
-            onClick={() => handleAddItem(product.id)}
+            loading={status === "pendingAddItem" + product.id}
+            onClick={() => dispatch(addItemToCart({productId: product.id}))}
           >
             Sepete Ekle
           </LoadingButton>

@@ -23,7 +23,7 @@ export const addItemToCart = createAsyncThunk<Cart, { productId: number, quantit
         }
     } 
 )
-export const deleteItemFromCart = createAsyncThunk<Cart, { productId: number, quantity?: number }>(
+export const deleteItemFromCart = createAsyncThunk<Cart, { productId: number, quantity?: number, key?:string }>( //key bilgisi delete işleminde toplu delete ile birer birer delete butonunun loading durumunu birbirinden ayırmak için kullanacağımız bir bilgidir
     "cart/deleteItemFromCart",
     async ({productId, quantity = 1}) => {
         try {
@@ -48,7 +48,8 @@ export const cartSlice = createSlice({
         //action, state’te değişmesini istediğimiz bir olaydır. Dışarıdan gönderdiğimiz bir değer olur.
         builder.addCase(addItemToCart.pending, (state, action) => { //pending demek sorgu gönderildiği sıradaki durumu kontrol etmek için kullanılır
             console.log(action);
-            state.status = "pending"; //api çağırısı sırasında bir işlemin başladığını ve veri beklendiğini belirmek için kullanılır.
+            state.status = "pendingAddItem" + action.meta.arg.productId; //api çağırısı sırasında bir işlemin başladığını ve veri beklendiğini belirmek için kullanılır.
+            //action.meta.arg.productId response body içinde bu kısımda productId'bulunmaktadır. Loading butonu çalışırken sadece ilgili ürünün loading'i çalışsın diye bu şekilde productId ataması yaptık
         });
         builder.addCase(addItemToCart.fulfilled, (state, action) => { //fulfilled servisten cevap geldiği aşamadır
             state.cart = action.payload; //gelen yeni veriyi (yani sepetteki ürünleri) state.cart içine kaydeder
@@ -57,8 +58,9 @@ export const cartSlice = createSlice({
         builder.addCase(addItemToCart.rejected, (state) => { //rejected adından da anlaşılacağı gibi sorgu reddedildiğinde bir hata ile karşılaşıldığında oluşan kısımdır
             state.status = "idle";
         });
-        builder.addCase(deleteItemFromCart.pending, (state) => {
-            state.status = "pending";
+        builder.addCase(deleteItemFromCart.pending, (state, action) => {
+            console.log(action)
+            state.status = "pendingDeleteItem" + action.meta.arg.productId + action.meta.arg.key;
         });
         builder.addCase(deleteItemFromCart.fulfilled, (state, action) => {
             state.cart = action.payload;
