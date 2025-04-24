@@ -8,6 +8,7 @@ import requests from "../../api/request";
 import { LoadingButton } from "@mui/lab"
 import { useCartContext } from "../../context/CartContext";
 import { toast } from "react-toastify";
+import { currencyTRY } from "../../utils/formatCurrency";
 
 interface Props { //props parametresini daha güvenilir bir şekilde, kontrol altına alınabilir bir şekilde yapmak için kullanılır
     product: IProduct;
@@ -39,7 +40,7 @@ export default function Product({product}: Props) {
           
           <Typography variant="body2" color="text.secondary">{product.description}</Typography>
           
-          <Typography variant="body2" color="secondary">Fiyat: ${(product.price / 100).toFixed(2)}₺</Typography>
+          <Typography variant="body2" color="secondary">Fiyat: {currencyTRY.format(product.price )}</Typography>
           
           <CardActions sx={{ px: 0, pb: 0, pt: 1 }}>
             <LoadingButton 
