@@ -1,17 +1,37 @@
-import { CircularProgress, Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+import { CircularProgress, Divider, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IProduct } from "../../model/IProduct";
 import request from "../../api/request";
 import NotFound from "../../errors/NotFound";
+import { LoadingButton } from "@mui/lab";
+import { AddShoppingCart } from "@mui/icons-material";
+import { useCartContext } from "../../context/CartContext";
+import { toast } from "react-toastify";
 
 export default function ProductDetailsPage() {
+
+  const { cart, setCart } = useCartContext();
 
   const { id } = useParams<{id: string}>(); //useParams = route üzerinden gelen bilgilerin alınmasını sağlar. 
   // Burada dikkat edilmesi gereken şey şudur: id olarak belirlediğimiz değişkenin Routes ayarlarken / dan sonra yazdığımız parametre ile aynı olmalıdır
   
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const item = cart?.cartItems.find(i => i.productId == product?.id)
+
+  function handleAddItem(id: number){
+    setIsAdded(true);
+    request.Cart.addItem(id)
+      .then(cart => {
+        setCart(cart);
+        toast.success("Sepetinize eklendi.");
+      })
+      .catch(error => console.log(error))
+      .finally(() => setIsAdded(false));
+  }
 
   useEffect( () => {
     id && request.Catalog.details(parseInt(id)) //id && = id varsa anlamına gelmektedir bu kontrolü yapmazak tanımlanmamış değer hatası verir
@@ -51,6 +71,23 @@ export default function ProductDetailsPage() {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <Stack direction="row" spacing={2} sx={{ mt:3 }} alignItems="center">
+          <LoadingButton 
+            variant="outlined"
+            loadingPosition="start"
+            startIcon={<AddShoppingCart />}
+            loading={isAdded}
+            onClick={() => handleAddItem(product.id)}
+          >
+            Sepete Ekle
+          </LoadingButton>
+          {
+            item?.quantity! > 0 && ( //Sonuna ! koymamızın sebebi bu sorgu undefined olabilir diye uyarı vermesidir. Undefined olmadığı durumları kontrol et demek içindir.
+              <Typography variant="body2">Sepetinizde bu üründen {item?.quantity} adet bulunmaktadır.</Typography>
+            )
+          }
+        </Stack>
       </Grid>
     </Grid>
   );
