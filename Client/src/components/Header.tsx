@@ -1,13 +1,13 @@
 import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography, Box, IconButton, Badge, Stack, Button } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
-import { useCartContext } from "../context/CartContext";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const links = [
   { title: "Home", to: "/" },
   { title: "Catalog", to: "/catalog" },
   { title: "About", to: "/about" },
-  { title: "Contact", to: "/contact" }, // contct yazmışsın lan, düzelttim
+  { title: "Contact", to: "/contact" },
   { title: "Error", to: "/error" },
 ];
 
@@ -23,7 +23,7 @@ const navStyles = {
 }
 
 export default function Header() {
-  const { cart } = useCartContext();
+  const { cart } = useAppSelector((state) => state.cart) //cart bilgileri alındı
   //Sepetteki tüm ürünlerin adetlerini (quantity) toplayarak toplam ürün sayısını hesaplayalım:
   const itemCount = cart?.cartItems.reduce((total, item) => total + item.quantity, 0);//reduce() dizideki elemanları işleyerek tek bir değer üretir. Başlangıç değeri burada 0 olarak belirtilmiş.
   

@@ -6,13 +6,16 @@ import request from "../../api/request";
 import NotFound from "../../errors/NotFound";
 import { LoadingButton } from "@mui/lab";
 import { AddShoppingCart } from "@mui/icons-material";
-import { useCartContext } from "../../context/CartContext";
 import { toast } from "react-toastify";
 import { currencyTRY } from "../../utils/formatCurrency";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { setCart } from "../cart/cartSlice";
 
 export default function ProductDetailsPage() {
 
-  const { cart, setCart } = useCartContext();
+  const { cart } = useAppSelector(state => state.cart);
+  const dispatch = useAppDispatch();
 
   const { id } = useParams<{id: string}>(); //useParams = route üzerinden gelen bilgilerin alınmasını sağlar. 
   // Burada dikkat edilmesi gereken şey şudur: id olarak belirlediğimiz değişkenin Routes ayarlarken / dan sonra yazdığımız parametre ile aynı olmalıdır
@@ -27,7 +30,7 @@ export default function ProductDetailsPage() {
     setIsAdded(true);
     request.Cart.addItem(id)
       .then(cart => {
-        setCart(cart);
+        dispatch(setCart(cart));
         toast.success("Sepetinize eklendi.");
       })
       .catch(error => console.log(error))

@@ -6,9 +6,10 @@ import { Link } from "react-router";
 import { useState } from "react";
 import requests from "../../api/request";
 import { LoadingButton } from "@mui/lab"
-import { useCartContext } from "../../context/CartContext";
 import { toast } from "react-toastify";
 import { currencyTRY } from "../../utils/formatCurrency";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { setCart } from "../cart/cartSlice";
 
 interface Props { //props parametresini daha güvenilir bir şekilde, kontrol altına alınabilir bir şekilde yapmak için kullanılır
     product: IProduct;
@@ -17,13 +18,13 @@ interface Props { //props parametresini daha güvenilir bir şekilde, kontrol al
 export default function Product({product}: Props) {
   
   const [loading, setLoading] = useState(false);
-  const { setCart } = useCartContext(); //ContextProvider'da belirlediğimiz setCart'ı çağırıp kullanabiliriz
+  const dispatch = useAppDispatch();
 
   function handleAddItem(productId: number) {
     setLoading(true);
     requests.Cart.addItem(productId)
       .then(cart => { //cart bilgilerini aldıktan sonra bu bilgileri ContextProvider'daki setCart üzerine set ediyoruz
-        setCart(cart);
+        dispatch(setCart(cart));
         toast.success("Sepetinize eklendi.");
       }) 
       .catch(error => console.log(error))

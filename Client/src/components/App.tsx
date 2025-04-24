@@ -5,15 +5,16 @@ import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import request from "../api/request";
-import { useCartContext } from "../context/CartContext";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { setCart } from "../features/cart/cartSlice";
 
 function App() {
-  const { setCart } = useCartContext();
+  const dispatch = useAppDispatch(); //dispatch ile ilgili slice üzerinden cart methodlarına ulaşılabilinir.
   const [loading, setLoading] = useState(true)
 
   useEffect(() => { //Sayfa yüklendiği anda cart bilgilerini almamızı sağlar. Eğer kullanıcının sepetinde bilgi varsa cookie üzerinden bu alınır ve sepetindeki bilgiler görüntülenebilir.
     request.Cart.get()
-      .then(cart => setCart(cart))
+      .then(cart => dispatch(setCart(cart)))//burada da görüldüğü gibi dispatch ile setCart methodu çağırılmış
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
   }, [])
