@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ProductList from "./ProductList";
-import { IProduct } from "../../model/IProduct";
 import { CircularProgress } from "@mui/material";
-import request from "../../api/request";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { fetchProducts, selectAllProducts } from "./catalogSlice";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 export default function CatalogPage() {
-
-    const [products, setProducts] = useState<IProduct[]>([]); //Ürün listesini tutmak için IProduct tipinde bir dizi olarak state tanımlıyoruz
-    const [loading, setLoading] = useState(true);
+    const products = useAppSelector(selectAllProducts);
+    const { status, isLoaded } = useAppSelector(state => state.catalog);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        request.Catalog.list()
-        .then(data => setProducts(data)) //setProducts ile data state'i güncellendi(yani products isimli diziye response'lar aktarıldı)
-        .finally(() => setLoading(false));
-    }, []);
+        if(!isLoaded)
+        {
+            dispatch(fetchProducts());
+        }
+    }, [isLoaded]); //isLoaded durumu değiştikçe useEffect içeriğini çalıştır
 
-    if(loading) return <CircularProgress />;
+    if(status === "pendingFetchProducts") return <CircularProgress />;
 
     return(
         <ProductList products={products} />
