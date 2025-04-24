@@ -77,7 +77,7 @@ const Catalog = {
 }
 
 const Cart = {
-    get: queries.get("cart"),// Sepeti getirir (GET isteği ile)
+    get: () => queries.get("cart"),// Sepeti getirir (GET isteği ile)
     // Sepete ürün ekler (varsayılan eklenen mmiktarı: 1) queries.post(`cart?productId=${productId}&quantity=${quantity}` kısmı post isteğinin atılacağı urlnin devamıdır.
     addItem: (productId: number, quantity = 1) => queries.post(`cart?productId=${productId}&quantity=${quantity}`, {}),
     // Sepetten ürün siler (varsayılan miktar: 1)
