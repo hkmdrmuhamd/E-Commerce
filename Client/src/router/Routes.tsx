@@ -1,14 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import App from "../components/App";
-import HomePage from "../pages/HomePage";
-import AboutPage from "../pages/AboutPage";
-import ContactPage from "../pages/ContactPage";
-import CatalogPage from "../pages/catalog/CatalogPage";
-import ProductDetailsPage from "../pages/catalog/ProductDetails";
-import ErrorPage from "../pages/catalog/ErrorPage";
+import HomePage from "../fetures/HomePage";
+import AboutPage from "../fetures/AboutPage";
+import ContactPage from "../fetures/ContactPage";
+import CatalogPage from "../fetures/catalog/CatalogPage";
+import ProductDetailsPage from "../fetures/catalog/ProductDetails";
+import ErrorPage from "../fetures/catalog/ErrorPage";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
-import ShoppingCartPage from "../pages/cart/ShoppingCartPage";
+import ShoppingCartPage from "../fetures/cart/ShoppingCartPage";
 
 export const router = createBrowserRouter([ //Gerekli routing yönlendirmeleri burada yapılır. Bu ayarlandıktan sonra main.tsx dosyasında StrictMode içinde App'i çağırmak yerine bu router'ı çağırması belirtilir.
     {
