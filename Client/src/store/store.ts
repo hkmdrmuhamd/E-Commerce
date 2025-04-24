@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { counterSlice } from "../fetures/counter/counterSlice"
+import { counterSlice } from "../features/counter/counterSlice"
 
 export const store = configureStore({
     reducer: { //State'e verdiğimiz isimdir.
