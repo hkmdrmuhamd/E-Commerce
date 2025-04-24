@@ -1,11 +1,11 @@
 import { Button, ButtonGroup, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
 import { decrement, increment, incrementByAmount } from "./counterSlice";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 export default function Counter() {
-    const count = useSelector((state: RootState) => state.counter.value); //state üzerinden counter value'sunu alabiliriz
-    const dispatch = useDispatch<AppDispatch>();
+    const count = useAppSelector((state) => state.counter.value);
+    const dispatch = useAppDispatch();
     
     return(
         <>
