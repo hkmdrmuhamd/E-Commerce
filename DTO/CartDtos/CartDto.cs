@@ -1,6 +1,6 @@
 ﻿using E_Commerce.Entity;
 
-namespace E_Commerce.DTO
+namespace E_Commerce.DTO.CartDtos
 {
     public class CartDto
     {
