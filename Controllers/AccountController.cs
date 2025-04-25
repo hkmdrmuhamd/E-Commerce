@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using E_Commerce.DTO.TokenDtos;
 using E_Commerce.DTO.UserDtos;
 using E_Commerce.Entity;
 using E_Commerce.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +24,7 @@ namespace E_Commerce.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
+        public async Task<ActionResult<GetTokenDto>> Login([FromBody] UserLoginDto userLoginDto)
         {
             var user = await _userManager.FindByNameAsync(userLoginDto.UserName);
             if (user == null)
@@ -38,7 +38,10 @@ namespace E_Commerce.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(new { token = await _tokenService.GenerateToken(user) });
+            return Ok(new GetTokenDto { 
+                Name = user.Name!,
+                Token = await _tokenService.GenerateToken(user) 
+            });
         }
 
         [HttpPost("register")]
