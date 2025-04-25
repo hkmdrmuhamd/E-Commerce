@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationDbContext(builder.Configuration); //Program.cs içerisinde configuration'larý SOLID ve Clean Architecture mantýðýnda tutmak için.
 
 builder.Services.AddCors(); // CORS izinlerini vermek için
+builder.Services.AddIdentityServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

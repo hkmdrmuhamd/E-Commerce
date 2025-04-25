@@ -1,9 +1,11 @@
 ﻿using E_Commerce.Entity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Data
 {
-    public class DataContext(DbContextOptions options) : DbContext(options) //DbContext, Design paketi ile gelen kütüphane
+    public class DataContext(DbContextOptions options) : IdentityDbContext<AppUser, AppRole, string>(options) //string vermemizin nedeni IdentityUser tablosunun Id alanının string olmasıdır.
+    /// AppUser ve AppRole, Identity kütüphanesi ile gelen IdentityRole tablosuna ek olarak eklediğimiz özellikleri barındıran entity sınıfıdır.
     {
         public DbSet<Product> Products { get; set; } = null!; //null değer geçilmeyeceğini belirtir.
         public DbSet<Cart> Carts { get; set; } = null!;
