@@ -1,6 +1,7 @@
 using E_Commerce.Data;
 using E_Commerce.ErrorHandlers;
 using E_Commerce.Extensions.FrameworkRegistration;
+using E_Commerce.Extensions.IdentityRegistrations;
 using E_Commerce.Extensions.ServiceRegistrations;
 using E_Commerce.Middlewares;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddFrameworkServices();
+builder.Services.ConfigureIdentityOptions();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
