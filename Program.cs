@@ -1,7 +1,9 @@
 using E_Commerce.Data;
+using E_Commerce.ErrorHandlers;
 using E_Commerce.Extensions.FrameworkRegistration;
 using E_Commerce.Extensions.ServiceRegistrations;
 using E_Commerce.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,12 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddFrameworkServices();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = ValidationErrorHandler.HandleInvalidModelState;
+});
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>(); // Middleware'i kullanabilmek için
