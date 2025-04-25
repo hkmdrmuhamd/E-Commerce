@@ -1,3 +1,4 @@
+using E_Commerce.Data;
 using E_Commerce.Extensions.ServiceRegistrations;
 using E_Commerce.Middlewares;
 
@@ -36,5 +37,7 @@ app.UseCors(opt =>
 app.UseAuthorization();
 
 app.MapControllers();
+
+SeedDatabaseForIdentity.Initialize(app); //Identity için veritabanýný seed etmek için
 
 app.Run();
