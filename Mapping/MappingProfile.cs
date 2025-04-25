@@ -8,9 +8,10 @@ namespace E_Commerce.Mapping
     {
         public MappingProfile()
         {
+            CreateMap<GetUserDto, AppUser>().ReverseMap();
+            CreateMap<GetUserByUserNameDto, AppUser>().ReverseMap();
             CreateMap<UserRegisterDto, AppUser>().ReverseMap();
-
-            CreateMap<AppUser, GetUserDto>().ReverseMap();
+            CreateMap<UpdateUserDto, AppUser>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace E_Commerce.DTO.UserDtos
 {
-    public class GetUserDto
+    public class GetUserByUserNameDto
     {
         public string Id { get; set; }
         public string Name { get; set; }
