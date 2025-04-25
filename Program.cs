@@ -1,4 +1,5 @@
 using E_Commerce.Data;
+using E_Commerce.Extensions.FrameworkRegistration;
 using E_Commerce.Extensions.ServiceRegistrations;
 using E_Commerce.Middlewares;
 
@@ -15,12 +16,13 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddFrameworkServices();
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>(); // Middleware'i kullanabilmek için
 
 // Configure the HTTP request pipeline.
-app.UseCustomSwagger();
+app.UseFrameworkMiddlewares();
 
 app.UseHttpsRedirection();
 
