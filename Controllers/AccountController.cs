@@ -29,7 +29,7 @@ namespace E_Commerce.Controllers
             var user = await _userManager.FindByNameAsync(userLoginDto.UserName);
             if (user == null)
             {
-                return BadRequest(new {message = "Girilen kullanıcı adı hatalı."});
+                return BadRequest(new ProblemDetails { Title = "username hatalı" });
             }
 
             var result = await _userManager.CheckPasswordAsync(user, userLoginDto.Password);
