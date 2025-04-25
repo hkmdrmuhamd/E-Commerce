@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../model/IUser";
 import { FieldValues } from "react-hook-form";
 import request from "../../api/request";
+import { router } from "../../router/Routes";
 
 interface AccountState{
     user: User | null
@@ -27,10 +28,18 @@ export const loginUser = createAsyncThunk<User, FieldValues>(
 export const accounntSlice = createSlice({
     name: "account",
     initialState,
-    reducers: {},
-    extraReducers: (builder => {
+    reducers: {
+        logout: (state) => {
+            state.user = null;
+            localStorage.removeItem("user");
+            router.navigate("/catalog")
+        }
+    },
+    extraReducers: (builder => { //bu extraReducer alanı asenkron bir sorgu yapıldığında çalışır. Bu sebeple asenkron yaptığımız sorgulamalar için bu alanı kullanırız.
         builder.addCase(loginUser.fulfilled, (state, action) => {
             state.user = action.payload;
         })
     })
 })
+
+export const { logout } = accounntSlice.actions;

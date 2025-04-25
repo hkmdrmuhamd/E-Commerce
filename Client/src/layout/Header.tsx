@@ -2,6 +2,8 @@ import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography, Box, IconButton, Badge, Stack, Button } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { logout } from "../features/account/accountSlice";
 
 const links = [
   { title: "Home", to: "/" },
@@ -30,6 +32,9 @@ const navStyles = {
 export default function Header() {
   const { cart } = useAppSelector((state) => state.cart) //cart bilgileri alındı
   //Sepetteki tüm ürünlerin adetlerini (quantity) toplayarak toplam ürün sayısını hesaplayalım:
+  const { user } = useAppSelector((state) => state.account) 
+  const dispatch = useAppDispatch();
+
   const itemCount = cart?.cartItems.reduce((total, item) => total + item.quantity, 0);//reduce() dizideki elemanları işleyerek tek bir değer üretir. Başlangıç değeri burada 0 olarak belirtilmiş.
   
   return (
@@ -57,18 +62,26 @@ export default function Header() {
               <ShoppingCart />
             </Badge>
           </IconButton>
-          <Stack direction="row">
-            {authLinks.map((link) => (
-              <Button
-                key={link.to}
-                component={NavLink}
-                to={link.to}
-                sx={navStyles}
-              >
-                {link.title}
-              </Button>
-            ))}
-          </Stack>
+
+          {user ? (
+              <Stack direction="row">
+                <Button sx={navStyles}>{user.name}</Button>
+                <Button sx={navStyles} onClick={() => dispatch(logout())}>Log Out</Button>
+              </Stack>
+            ) : (
+              <Stack direction="row">
+                {authLinks.map((link) => (
+                  <Button
+                    key={link.to}
+                    component={NavLink}
+                    to={link.to}
+                    sx={navStyles}
+                  >
+                  {link.title}
+                  </Button>
+                ))}
+              </Stack>
+            )}
         </Box>
       </Toolbar>
     </AppBar>
