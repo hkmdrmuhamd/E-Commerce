@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using E_Commerce.DTO.UserDtos;
 using E_Commerce.Entity;
+using E_Commerce.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,13 @@ namespace E_Commerce.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, IMapper mapper, TokenService tokenService)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
@@ -35,7 +38,7 @@ namespace E_Commerce.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(new { token = "token" });
+            return Ok(new { token = await _tokenService.GenerateToken(user) });
         }
 
         [HttpPost("register")]
