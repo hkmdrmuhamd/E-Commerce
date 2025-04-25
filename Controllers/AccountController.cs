@@ -37,5 +37,22 @@ namespace E_Commerce.Controllers
             }
             return Ok(new { token = "token" });
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = _mapper.Map<AppUser>(userRegisterDto);
+            var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Customer");
+                return StatusCode(201);
+            }
+            return BadRequest(result.Errors);
+        }
     }
 }
