@@ -41,7 +41,9 @@ namespace E_Commerce.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(30),
-                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature) //Token'ı imzalamak için gerekli olan bilgiler
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature), //Token'ı imzalamak için gerekli olan bilgiler
+                Issuer = "muhammedhkmdr.com",
+                Audience = "abc"
             };
 
             var token = tokenHandler.CreateToken(tokenSettings); //Token'ı oluşturuyoruz

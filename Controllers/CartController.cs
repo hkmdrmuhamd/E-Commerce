@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Data;
 using E_Commerce.DTO.CartDtos;
 using E_Commerce.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ namespace E_Commerce.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<CartDto>> GetCart() //ActionResult olmasının sebebi geriye bir tip dönüşü yapacağımız içindir.
         {
             var cart = await GetOrCreate();

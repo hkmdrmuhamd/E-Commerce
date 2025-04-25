@@ -1,5 +1,6 @@
 using E_Commerce.Data;
 using E_Commerce.ErrorHandlers;
+using E_Commerce.Extensions.AuthenticationServiceRegistrations;
 using E_Commerce.Extensions.FrameworkRegistration;
 using E_Commerce.Extensions.IdentityRegistrations;
 using E_Commerce.Extensions.ServiceRegistrations;
@@ -21,6 +22,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddFrameworkServices();
 builder.Services.ConfigureIdentityOptions();
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
 builder.Services.AddScopedRegistrations();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -47,6 +50,7 @@ app.UseCors(opt =>
        .WithOrigins("http://localhost:3000");
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
