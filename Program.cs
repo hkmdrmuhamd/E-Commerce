@@ -21,6 +21,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddFrameworkServices();
 builder.Services.ConfigureIdentityOptions();
+builder.Services.AddScopedRegistrations();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
