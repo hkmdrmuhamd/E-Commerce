@@ -18,7 +18,6 @@ namespace E_Commerce.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<CartDto>> GetCart() //ActionResult olmasının sebebi geriye bir tip dönüşü yapacağımız içindir.
         {
             var cart = await GetOrCreate();
