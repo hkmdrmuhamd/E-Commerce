@@ -84,8 +84,13 @@ const Cart = {
     deleteItem: (productId: number, quantity = 1) => queries.delete(`cart?productId=${productId}&quantity=${quantity}`)
 }
 
+const Account = {
+    login: (formData: any) => queries.post("account/login", formData), //fomData içerisinde userName ve password olacak
+    register: (formData: any) => queries.post("account/register", formData)
+}
+
 const request = {
-    Catalog, Errors, Cart
+    Catalog, Errors, Cart, Account
 }
 
 export default request
