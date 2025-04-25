@@ -1,26 +1,18 @@
 import { LockOutline } from "@mui/icons-material";
 import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form"
 import request from "../../api/request";
 
 export default function LoginPage() {
-    // const [username, setUsername] = useState("");
-    // const [password, setPassword] = useState("");
-
-    const [values, setValues] = useState({
-        username: "",
-        password: ""
+    const { register, handleSubmit } = useForm({
+        defaultValues: {
+            username: "",
+            password: ""
+        }
     });
 
-    function handleSubmit(e: any) {
-        e.preventDefault(); //Bu kod kullanıcı adı şifre girdikten sonra sayfanın yenilenme özelliğini kapatır ve bu sayede konsoldaki değerleri görebiliriz.
-        console.log(values);
-        request.Account.login(values);
-    }
-
-    function handleInputChange(e: any) {
-        const { name, value } = e.target;
-        setValues({...values, [name]: value })
+    async function submitForm(data: FieldValues) {
+        await request.Account.login(data);
     }
 
     return (
@@ -30,20 +22,16 @@ export default function LoginPage() {
                     <LockOutline />
                 </Avatar>
                 <Typography component="h1" variant="h5" sx={{ textAlign: "center"}}>Login</Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 2}}>
+                <Box component="form" onSubmit={handleSubmit(submitForm)} noValidate sx={{mt: 2}}>
                     <TextField 
-                        name="username"
-                        value={values.username}
-                        onChange={handleInputChange}
+                        {...register("username")}
                         label="Enter username" 
                         fullWidth required autoFocus 
                         sx={{ mb: 2 }} 
                         size="small"
                     ></TextField>
                     <TextField 
-                        name="password"
-                        value={values.password}
-                        onChange={handleInputChange}
+                        {...register("password")}
                         label="Enter password" 
                         type = "password" 
                         fullWidth required 
