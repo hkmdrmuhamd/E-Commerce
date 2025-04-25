@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit"
 import { counterSlice } from "../features/counter/counterSlice"
 import { cartSlice } from "../features/cart/cartSlice"
 import { catalogSlice } from "../features/catalog/catalogSlice"
+import { accounntSlice } from "../features/account/accountSlice"
 
 export const store = configureStore({
     reducer: { //State'e verdiğimiz isimdir.
         counter: counterSlice.reducer, //İlgili reducer artık store üzerinden erişilebilir halde.
         cart: cartSlice.reducer,
-        catalog: catalogSlice.reducer
+        catalog: catalogSlice.reducer,
+        account: accounntSlice.reducer
     } 
 }) //artık yapımız hazır bu sayede artık counter üzerinden istersek methodlara (counterSlice içerisindeki methodlar ör:increment, decrement gibi), istersek de state'lere(ör: initialState) rahatlıkla erişebiliriz.
 
