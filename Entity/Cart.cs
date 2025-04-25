@@ -4,7 +4,7 @@
     {
         public int CartId { get; set; }
         public string CustomerId { get; set; } = null!;
-        public List<CartItem> CartItems { get; set; } = new List<CartItem>(); //sadece new() yazsak da olur bu kısaltılmış halidir.
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>(); //sadece new() yazsak da olur bu kısaltılmış halidir. new List<CartItem>() veya sadece new() kullanmamızın sebebi başlangıçta boş bir CartItem listesi oluşturması içindir.
 
         public void AddItem(Product product, int quantity)
         {
