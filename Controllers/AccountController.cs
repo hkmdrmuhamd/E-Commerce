@@ -3,6 +3,7 @@ using E_Commerce.DTO.TokenDtos;
 using E_Commerce.DTO.UserDtos;
 using E_Commerce.Entity;
 using E_Commerce.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,24 @@ namespace E_Commerce.Controllers
                 return StatusCode(201);
             }
             return BadRequest(result.Errors);
+        }
+
+        [Authorize]
+        [HttpGet("getuser")]
+        public async Task<ActionResult<GetTokenDto>> GetUser() //Bu method'a erişebilmek için token'a sahip olmak gereklidir.
+                                                               //Eğer token varsa ve token geçerliyse bu token'dan User.Identity?.Name! bilgisini alıyoruz
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity?.Name!); //User.Identity.Name = Token içinden bir claim'i bu şekilde alabiliriz. Bu örnekte token'dan name bilgisi alınmış.
+            if (user == null)
+            {
+                return BadRequest(new ProblemDetails { Title = "username yada parola hatalı" });
+            }
+
+            return new GetTokenDto
+            {
+                Name = user.Name!,
+                Token = await _tokenService.GenerateToken(user)
+            };
         }
     }
 }
