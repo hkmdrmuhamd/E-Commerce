@@ -25,6 +25,26 @@ export const loginUser = createAsyncThunk<User, FieldValues>(
     }
 )
 
+export const getUser = createAsyncThunk<User>(
+    "account/getuser",
+    async (_,thunkAPI) => {
+        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem("user")!)))//loacStorage üzerindeki user bilgisini çıkarıp setUser'a gönderiyoruz.
+    //setUser da state'in durumunu bizim üst satırdaki gönderdiğimiz bilgiye göre güncelliyor. Yani artık state'de user bilgisi var.
+        try {
+            const user = await request.Account.getUser();
+            localStorage.setItem("user", JSON.stringify(user));
+            return user;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    },
+    {
+        condition: () => { // Bu ifade ile üstteki sorgunun bir şarta bağlı çalışmasını sağlıyoruz. Eğer bu ifade doğru olursa false değeri döner bu durumda sorgu çalışmaz.
+            if (!localStorage.getItem("user")) return false;
+        }
+    }
+)
+
 export const accounntSlice = createSlice({
     name: "account",
     initialState,
@@ -41,7 +61,15 @@ export const accounntSlice = createSlice({
     extraReducers: (builder => { //bu extraReducer alanı asenkron bir sorgu yapıldığında çalışır. Bu sebeple asenkron yaptığımız sorgulamalar için bu alanı kullanırız.
         builder.addCase(loginUser.fulfilled, (state, action) => {
             state.user = action.payload;
-        })
+        });
+        builder.addCase(getUser.fulfilled, (state, action) => {
+            state.user = action.payload; //setUser kullanmamıza gerek yok çünkü bu işlem zaten setUser'ın işinin aynısını yapıyor
+        });
+        builder.addCase(getUser.rejected, (state) => {
+            state.user = null; //eğer bir hata olursa state üzerinde user olmasın.
+            localStorage.removeItem("user");
+            router.navigate("/login")
+        });
     })
 })
 
