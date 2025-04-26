@@ -33,6 +33,9 @@ export const accounntSlice = createSlice({
             state.user = null;
             localStorage.removeItem("user");
             router.navigate("/catalog")
+        },
+        setUser: (state, action) => { //Kullanıcı bilgisini localStorage'a almıştık. Bu bilgiyi setUser ile alıp Redux üzerine koyacağız. Bu yüzden bu işlem senkron bir işlemdir.
+            state.user = action.payload;
         }
     },
     extraReducers: (builder => { //bu extraReducer alanı asenkron bir sorgu yapıldığında çalışır. Bu sebeple asenkron yaptığımız sorgulamalar için bu alanı kullanırız.
@@ -42,4 +45,4 @@ export const accounntSlice = createSlice({
     })
 })
 
-export const { logout } = accounntSlice.actions;
+export const { logout, setUser } = accounntSlice.actions

@@ -85,8 +85,9 @@ const Cart = {
 }
 
 const Account = {
-    login: (formData: any) => queries.post("account/login", formData), //fomData içerisinde userName ve password olacak
-    register: (formData: any) => queries.post("account/register", formData)
+    login: (formData: any) => queries.post("account/login", formData), //fomData içerisinde userName ve password olacak. Yani formData dediğimiz şey aslında fonksiyona dışarıdan gelen bir değer.
+    register: (formData: any) => queries.post("account/register", formData),
+    getUser: () => queries.get("account/getuser")
 }
 
 const request = {

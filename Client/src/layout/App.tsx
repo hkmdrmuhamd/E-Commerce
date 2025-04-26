@@ -7,12 +7,23 @@ import 'react-toastify/dist/ReactToastify.css'
 import request from "../api/request";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { setCart } from "../features/cart/cartSlice";
+import { setUser } from "../features/account/accountSlice";
 
 function App() {
   const dispatch = useAppDispatch(); //dispatch ile ilgili slice üzerinden cart methodlarına ulaşılabilinir.
   const [loading, setLoading] = useState(true)
 
   useEffect(() => { //Sayfa yüklendiği anda cart bilgilerini almamızı sağlar. Eğer kullanıcının sepetinde bilgi varsa cookie üzerinden bu alınır ve sepetindeki bilgiler görüntülenebilir.
+    dispatch(setUser(JSON.parse(localStorage.getItem("user")!)))//loacStorage üzerindeki user bilgisini çıkarıp setUser'a gönderiyoruz.
+    //setUser da state'in durumunu bizim üst satırdaki gönderdiğimiz bilgiye göre güncelliyor. Yani artık state'de user bilgisi var.
+    
+    request.Account.getUser() //Bu işlemi yapmamızın sebebi de almış olduğumuz token'ın geçerli bir token olup olmadığını tespit edebilmek için API'ye yaptığımı bir sorgudur.
+      .then(user => {
+        setUser(user); //Eğer token geçerli değilse API yeni bir token oluşturup gönderiyor. Bu token'la state'de bulunan toke'ımızı değişmek için tekrardan setUser'ı çağırıyoruz. Eğer token geçerliyse sadece state'i tekrar günceller.
+        localStorage.setItem("user", user);
+      })
+      .catch(error => console.log(error));
+    
     request.Cart.get()
       .then(cart => dispatch(setCart(cart)))//burada da görüldüğü gibi dispatch ile setCart methodu çağırılmış
       .catch(error => console.log(error))
