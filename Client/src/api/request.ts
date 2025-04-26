@@ -1,12 +1,21 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
+import { store } from "../store/store";
 
 axios.defaults.baseURL = "https://localhost:7190/api/"
 axios.defaults.withCredentials = true; //gelen cookie'leri yakalamaya izin verir
 
+axios.interceptors.request.use(request => {
+    const token = store.getState().account.user?.token//getState store üzerindeki bilgilerin hepsini verir(cart, catalog, account)
+    if(token)
+        request.headers.Authorization = `Bearer ${token}`
+    return request; //interceptors ile request sürecini kesip araya kendi kodlarımızı ekliyoruz. Yani Request - response sürecini bir süreliğine kesiyoruz. Bu sürecin devam edebilmesi için request'i tekrar geri döndürmemiz gereklidir.
+})
+
 axios.interceptors.response.use( //interceptor = Global hata yönetimi sağlar. Her API çağrısında try/catch yapmana gerek kalmaz.
     // Başarılı cevap geldiğinde doğrudan cevabı döndür.
+    //Bu bir middleware'dır. response cevabı geldiği durumlar için yapılacak işlemleri içerir.
     response => {
         return response;
     },

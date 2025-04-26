@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Header from "./Header";
 import { CircularProgress, Container, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
@@ -7,7 +6,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import request from "../api/request";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { setCart } from "../features/cart/cartSlice";
-import { setUser } from "../features/account/accountSlice";
+import { logout, setUser } from "../features/account/accountSlice";
+import Header from "./Header"; 
+//Header içinde de accountSlice kullanılıyor. Ama sayfa açıldığında ilk olarak App.tsx çalıştığı için import sıralamasında App.tsx layout'undaki accountSlice'ların altına Header importunu eklemeliyiz. Aksi durumda uygulama hata verir.
 
 function App() {
   const dispatch = useAppDispatch(); //dispatch ile ilgili slice üzerinden cart methodlarına ulaşılabilinir.
@@ -20,9 +21,12 @@ function App() {
     request.Account.getUser() //Bu işlemi yapmamızın sebebi de almış olduğumuz token'ın geçerli bir token olup olmadığını tespit edebilmek için API'ye yaptığımı bir sorgudur.
       .then(user => {
         setUser(user); //Eğer token geçerli değilse API yeni bir token oluşturup gönderiyor. Bu token'la state'de bulunan toke'ımızı değişmek için tekrardan setUser'ı çağırıyoruz. Eğer token geçerliyse sadece state'i tekrar günceller.
-        localStorage.setItem("user", user);
+        localStorage.setItem("user", JSON.stringify(user));
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        dispatch(logout());
+      });
     
     request.Cart.get()
       .then(cart => dispatch(setCart(cart)))//burada da görüldüğü gibi dispatch ile setCart methodu çağırılmış
