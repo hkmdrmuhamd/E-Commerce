@@ -1,3 +1,4 @@
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { CircularProgress, Divider, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -5,8 +6,6 @@ import NotFound from "../../errors/NotFound";
 import { LoadingButton } from "@mui/lab";
 import { AddShoppingCart } from "@mui/icons-material";
 import { currencyTRY } from "../../utils/formatCurrency";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addItemToCart } from "../cart/cartSlice";
 import { fetchProductById, selectProductById } from "./catalogSlice";
 

@@ -1,8 +1,8 @@
+import { useAppDispatch } from "../../store/store";
 import { LockOutline } from "@mui/icons-material";
 import { Avatar, Box, Container, Paper, TextField, Typography } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form"
 import { LoadingButton } from "@mui/lab";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { loginUser } from "./accountSlice";
 import { useNavigate } from "react-router";
 

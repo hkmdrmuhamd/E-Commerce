@@ -1,9 +1,8 @@
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useEffect } from "react";
 import ProductList from "./ProductList";
 import { CircularProgress } from "@mui/material";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchProducts, selectAllProducts } from "./catalogSlice";
-import { useAppSelector } from "../../hooks/useAppSelector";
 
 export default function CatalogPage() {
     const products = useAppSelector(selectAllProducts);

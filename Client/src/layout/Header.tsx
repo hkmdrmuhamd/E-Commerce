@@ -1,8 +1,7 @@
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography, Box, IconButton, Badge, Stack, Button } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
-import { useAppSelector } from "../hooks/useAppSelector";
-import { useAppDispatch } from "../hooks/useAppDispatch";
 import { logout } from "../features/account/accountSlice";
 
 const links = [

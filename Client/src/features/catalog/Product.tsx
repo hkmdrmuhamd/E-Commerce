@@ -1,3 +1,4 @@
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { IProduct } from "../../model/IProduct";
@@ -5,9 +6,7 @@ import { AddShoppingCart } from "@mui/icons-material";
 import { Link } from "react-router";
 import { LoadingButton } from "@mui/lab"
 import { currencyTRY } from "../../utils/formatCurrency";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addItemToCart } from "../cart/cartSlice";
-import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface Props { //props parametresini daha güvenilir bir şekilde, kontrol altına alınabilir bir şekilde yapmak için kullanılır
     product: IProduct;

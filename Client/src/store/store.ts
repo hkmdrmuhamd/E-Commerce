@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
+import { useDispatch, useSelector } from "react-redux"
 import { counterSlice } from "../features/counter/counterSlice"
 import { cartSlice } from "../features/cart/cartSlice"
 import { catalogSlice } from "../features/catalog/catalogSlice"
@@ -16,4 +17,7 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>//geri dönecek olan state'in tipini tanımlar. Herhangi bir component'de useSelector ile çağırıldığında state bilgisine RootState tipini vermemiz gereklidir. bkz:(Counter.tsx)
 export type AppDispatch = typeof store.dispatch //geri dönecek olan state'in tipini tanımlar. Herhangi bir component'de useDispatch ile çağırıldığında dispatch bilgisine AppDispatch tipini vermemiz gereklidir. bkz:(Counter.tsx)
 
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();
 //Bu işlemlerden sonra main.tsx dosyasında Provider'ı ayarlıyoruz.

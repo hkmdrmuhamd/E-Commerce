@@ -1,6 +1,6 @@
+import { useAppSelector } from "../../store/store";
 import { TableCell, TableRow } from "@mui/material";
 import { currencyTRY } from "../../utils/formatCurrency";
-import { useAppSelector } from "../../hooks/useAppSelector";
 
 export default function CartSummary() {
     const { cart } = useAppSelector((state) => state.cart); //cart bilgisi alındı
