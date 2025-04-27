@@ -3,6 +3,7 @@ import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography, Box, IconButton, Badge, Stack, Button } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { logout } from "../features/account/accountSlice";
+import { clearCart } from "../features/cart/cartSlice";
 
 const links = [
   { title: "Home", to: "/" },
@@ -35,7 +36,7 @@ export default function Header() {
   const dispatch = useAppDispatch();
 
   const itemCount = cart?.cartItems.reduce((total, item) => total + item.quantity, 0);//reduce() dizideki elemanları işleyerek tek bir değer üretir. Başlangıç değeri burada 0 olarak belirtilmiş.
-  
+
   return (
     <AppBar position="static" sx={{ mb: 4 }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -65,7 +66,11 @@ export default function Header() {
           {user ? (
               <Stack direction="row">
                 <Button sx={navStyles}>{user.name}</Button>
-                <Button sx={navStyles} onClick={() => dispatch(logout())}>Log Out</Button>
+                <Button sx={navStyles} onClick={() => { 
+                  dispatch(logout()) 
+                  dispatch(clearCart()) 
+                }}
+                >Log Out</Button>
               </Stack>
             ) : (
               <Stack direction="row">

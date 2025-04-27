@@ -20,14 +20,14 @@ namespace E_Commerce.Controllers
         [HttpGet]
         public async Task<ActionResult<CartDto>> GetCart() //ActionResult olmasının sebebi geriye bir tip dönüşü yapacağımız içindir.
         {
-            var cart = await GetOrCreate();
+            var cart = await GetOrCreate(GetCustomerId());
             return CartToDto(cart);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddItemToCart(int productId, int quantity)
         {
-            var cart = await GetOrCreate();
+            var cart = await GetOrCreate(GetCustomerId());
             var product = await _context.Products.FindAsync(productId);
 
             if (product == null) return NotFound("the product is not in database");
@@ -46,7 +46,7 @@ namespace E_Commerce.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteItemFromCart(int productId, int quantity)
         {
-            var cart = await GetOrCreate();
+            var cart = await GetOrCreate(GetCustomerId());
             var product = await _context.Products.FindAsync(productId);
             
             if (product == null) return NotFound("the product is not in database");
@@ -61,26 +61,36 @@ namespace E_Commerce.Controllers
             return BadRequest(new ProblemDetails { Title = "The product can not be deleted from cart" });
         }
 
-        private async Task<Cart> GetOrCreate()
+        private string GetCustomerId()
+        {
+            return User.Identity?.Name ?? Request.Cookies["customerId"]!; //Kullanıcı eğer uygulamaya giriş yapmışsa name'ini alacağız. eğer giriş yapmamışsa da cookie'ler üzerinden customerId'sini alacağız.
+        }
+
+        private async Task<Cart> GetOrCreate(string custId)
         {
             var cart = await _context.Carts
                             .Include(i => i.CartItems) //Cart tablosundaki CartItems tablosuna gidiyoruz.
                             .ThenInclude(i => i.Product) // CartItems tablosundaki Product tablosuna gidiyoruz.
-                            .Where(i => i.CustomerId == Request.Cookies["customerId"])
+                            .Where(i => i.CustomerId == custId)
                             .FirstOrDefaultAsync();
+            
             if (cart == null)
             {
-                var customerId = Guid.NewGuid().ToString(); //Guid bir benzersiz kimlik oluşturur.
+                var customerId = User.Identity?.Name;
 
-                var cookieOptions = new CookieOptions
+                if (string.IsNullOrEmpty(customerId))
                 {
-                    Expires = DateTimeOffset.UtcNow.AddDays(30),
-                    IsEssential = true,
-                    SameSite = SameSiteMode.None,
-                    Secure = true
-                };
+                    customerId = Guid.NewGuid().ToString();
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(30),
+                        IsEssential = true,
+                        SameSite = SameSiteMode.None,
+                        Secure = true
+                    };
 
-                Response.Cookies.Append("customerId", customerId, cookieOptions); //cookie oluşturuyoruz.
+                    Response.Cookies.Append("customerId", customerId, cookieOptions); //cookie oluşturuyoruz.
+                }
                 
                 cart = new Cart
                 {
